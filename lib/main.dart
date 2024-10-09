@@ -116,37 +116,6 @@ class _MissionPageState extends State<MissionPage> {
                   return CircularProgressIndicator();
                 })));
   }
-
-  // Widget missionListWidget() {
-  //   return ListView.builder(
-  //     itemCount: missionList.length,
-  //     itemBuilder: (context, index) {
-  //       return Container(
-  //           margin: EdgeInsets.all(8),
-  //           child: MissionPost(missionentry: missionList[index]));
-  //     },
-  //   );
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchMissions();
-  // }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Space Missions'),
-  //       backgroundColor: Colors.green[900],
-  //       titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
-  //     ),
-  //     body: isLoading
-  //         ? Center(child: CircularProgressIndicator())
-  //         : missionListWidget(),
-  //   );
-  // }
 }
 
 //We make a stateful mission post as it's state can change depending upon the pressing of a button.
@@ -193,7 +162,7 @@ class _MissionPostState extends State<MissionPost> {
             ),
             const SizedBox(height: 12), // Spacing
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Flexible(
                   child: Text(
