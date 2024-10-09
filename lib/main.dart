@@ -72,52 +72,80 @@ class _MissionPageState extends State<MissionPage> {
   List<missionEntry> missionList = [];
   bool isLoading = true;
 
-  Future<void> fetchMissions() async {
+  Future<List<missionEntry>> fetchMissions() async {
     final response =
         await http.get(Uri.parse('https://api.spacexdata.com/v3/missions'));
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(utf8.decode(response.bodyBytes)) as List;
-      setState(() {
-        missionList = jsonResponse
-            .map((mission) => missionEntry.fromJson(mission))
-            .toList();
-        isLoading = false;
-      });
+      isLoading = false;
+      missionList = jsonResponse
+          .map((mission) => missionEntry.fromJson(mission))
+          .toList();
+      return (missionList);
     } else {
       throw Exception('Error Loading missions');
     }
   }
 
-  Widget missionListWidget() {
-    return ListView.builder(
-      itemCount: missionList.length,
-      itemBuilder: (context, index) {
-        return Container(
-            margin: EdgeInsets.all(8),
-            child: MissionPost(missionentry: missionList[index]));
-      },
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchMissions();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Space Missions'),
-        backgroundColor: Colors.green[900],
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
-      ),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : missionListWidget(),
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Colors.green[900],
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        body: Center(
+            child: FutureBuilder<List<missionEntry>>(
+                future: fetchMissions(),
+                builder: (context, snap) {
+                  if (snap.hasData) {
+                    return ListView.builder(
+                      itemCount: snap.data!.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            margin: EdgeInsets.all(8),
+                            child:
+                                MissionPost(missionentry: snap.data![index]));
+                      },
+                    );
+                  } else if (snap.hasError) {
+                    return Text('Error Loading Missions');
+                  }
+                  return CircularProgressIndicator();
+                })));
   }
+
+  // Widget missionListWidget() {
+  //   return ListView.builder(
+  //     itemCount: missionList.length,
+  //     itemBuilder: (context, index) {
+  //       return Container(
+  //           margin: EdgeInsets.all(8),
+  //           child: MissionPost(missionentry: missionList[index]));
+  //     },
+  //   );
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchMissions();
+  // }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text('Space Missions'),
+  //       backgroundColor: Colors.green[900],
+  //       titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+  //     ),
+  //     body: isLoading
+  //         ? Center(child: CircularProgressIndicator())
+  //         : missionListWidget(),
+  //   );
+  // }
 }
 
 //We make a stateful mission post as it's state can change depending upon the pressing of a button.
@@ -132,16 +160,16 @@ class MissionPost extends StatefulWidget {
 //We now assemble the composition of the mission post.
 //Since I need rounded corners and a shadow I use card
 class _MissionPostState extends State<MissionPost> {
-  bool expanded = false;
+  bool viewMoreClicked = false;
   //Random Color Function
   // Function to generate a random color
   Color getRandomColor() {
     final Random random = Random();
     return Color.fromARGB(
       255,
-      random.nextInt(256), // Red
-      random.nextInt(256), // Green
-      random.nextInt(256), // Blue
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
     );
   }
 
@@ -170,8 +198,9 @@ class _MissionPostState extends State<MissionPost> {
                 Flexible(
                   child: Text(
                     "${widget.missionentry.description}",
-                    overflow:
-                        expanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                    overflow: viewMoreClicked
+                        ? TextOverflow.visible
+                        : TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -183,7 +212,7 @@ class _MissionPostState extends State<MissionPost> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      expanded = !expanded;
+                      viewMoreClicked = !viewMoreClicked;
                     });
                   },
                   child: Row(
@@ -191,12 +220,14 @@ class _MissionPostState extends State<MissionPost> {
                     children: [
                       // Icon based on expanded state
                       Icon(
-                        expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                        viewMoreClicked
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down,
                         color: Colors.white,
                       ),
                       // Text based on expanded state
                       Text(
-                        expanded ? 'Read Less' : 'Read More',
+                        viewMoreClicked ? 'Read Less' : 'Read More',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
