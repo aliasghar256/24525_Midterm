@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Space Missions',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       home: const MissionPage(title: 'Space Missions'),
@@ -223,19 +223,19 @@ class _MissionPostState extends State<MissionPost> {
                         viewMoreClicked
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        color: Colors.white,
+                        color: Colors.green,
                       ),
                       // Text based on expanded state
                       Text(
                         viewMoreClicked ? 'Less' : 'More',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.green,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  color: Colors.green[900],
+                  color: Colors.grey[200],
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12.0, vertical: 6.0),
                   shape: RoundedRectangleBorder(
@@ -251,8 +251,6 @@ class _MissionPostState extends State<MissionPost> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Payload IDs:",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
                   // Center the Wrap containing the pills
                   Center(
                     child: Wrap(
