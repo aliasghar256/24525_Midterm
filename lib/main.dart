@@ -191,9 +191,9 @@ class _MissionPostState extends State<MissionPost> {
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
-            const SizedBox(height: 7), // Spacing
+            const SizedBox(height: 12), // Spacing
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Flexible(
                   child: Text(
@@ -205,7 +205,7 @@ class _MissionPostState extends State<MissionPost> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -216,16 +216,14 @@ class _MissionPostState extends State<MissionPost> {
                     });
                   },
                   child: Row(
-                    mainAxisSize: MainAxisSize.min, // Use min size for the row
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Icon based on expanded state
                       Icon(
                         viewMoreClicked
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
                         color: Colors.green,
                       ),
-                      // Text based on expanded state
                       Text(
                         viewMoreClicked ? 'Less' : 'More',
                         style: TextStyle(
@@ -237,41 +235,38 @@ class _MissionPostState extends State<MissionPost> {
                   ),
                   color: Colors.grey[200],
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 6.0),
+                      horizontal: 16.0, vertical: 8.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ],
-            ), // Spacing
+            ),
 
-            // Payload IDs Section (Wrap with pill-shaped containers)
+            // Payload IDs
             if (widget.missionentry.payload_ids != null &&
                 widget.missionentry.payload_ids!.isNotEmpty)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Center the Wrap containing the pills
                   Center(
                     child: Wrap(
-                      spacing: 8.0, // Space between pills
-                      runSpacing: 4.0, // Space between lines
+                      spacing: 8.0,
+                      runSpacing: 4.0,
                       children: widget.missionentry.payload_ids!.map((id) {
-                        final color = getRandomColor(); // Get random color
+                        final color = getRandomColor(); // random color
                         return Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0,
-                              vertical: 6.0), // Padding for pill shape
+                              horizontal: 12.0, vertical: 6.0),
                           decoration: BoxDecoration(
-                            color: color, // Background color
-                            borderRadius: BorderRadius.circular(
-                                20.0), // Rounded corners for pill shape
+                            color: color,
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
                           child: Text(
                             id,
                             style: TextStyle(
                                 color: Colors.black,
-                                fontWeight: FontWeight.w600), // Text color
+                                fontWeight: FontWeight.w600),
                           ),
                         );
                       }).toList(),
