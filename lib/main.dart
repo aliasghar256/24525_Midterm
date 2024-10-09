@@ -9,6 +9,7 @@ void main() {
 
 //Defining the Class for an individual Mission Post
 class missionEntry {
+  //Needed to add these as I was facing an infinite loading error.
   final String? mission_name;
   final String? mission_id;
   final List<String>? manufacturers;
@@ -176,12 +177,13 @@ class _MissionPostState extends State<MissionPost> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
+      shadowColor: Colors.grey,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Mission Name
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -189,9 +191,7 @@ class _MissionPostState extends State<MissionPost> {
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
-            const SizedBox(height: 8), // Spacing
-
-            // Mission Description
+            const SizedBox(height: 7), // Spacing
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -227,7 +227,7 @@ class _MissionPostState extends State<MissionPost> {
                       ),
                       // Text based on expanded state
                       Text(
-                        viewMoreClicked ? 'Read Less' : 'Read More',
+                        viewMoreClicked ? 'Less' : 'More',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -235,11 +235,11 @@ class _MissionPostState extends State<MissionPost> {
                       ),
                     ],
                   ),
-                  color: Colors.teal[900],
+                  color: Colors.green[900],
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
+                      horizontal: 12.0, vertical: 6.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ],
@@ -271,7 +271,9 @@ class _MissionPostState extends State<MissionPost> {
                           ),
                           child: Text(
                             id,
-                            style: TextStyle(color: Colors.white), // Text color
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600), // Text color
                           ),
                         );
                       }).toList(),
